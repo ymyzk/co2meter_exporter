@@ -1,9 +1,12 @@
+from logging import getLogger
+import sys
 from typing import Dict, Generator
 
 from CO2Meter import CO2Meter
 from prometheus_client.core import GaugeMetricFamily
 
 
+_LOGGER = getLogger(__name__)
 _METRICS = {
     "co2": "CO2 in ppm",
     "temperature": "Temperature in degrees Celsius",
@@ -28,7 +31,12 @@ class CustomCollector:
     def collect(self) -> Generator[GaugeMetricFamily, None, None]:
         # TODO: We may want to reinitialize the meter or exit the application
         #       when the meter is unhealthy
-        data = self.meter.get_data()
+        try:
+            data = self.meter.get_data()
+        except OSError:
+            _LOGGER.exception("Terminating the application")
+            sys.exit(1)
+
         for field, description in _METRICS.items():
             gauge = self._make_gauge_metric(data, field, description)
             if gauge is None:
