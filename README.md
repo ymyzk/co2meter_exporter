@@ -6,7 +6,7 @@
 3. Run co2meter_exporter: `python3 -m co2meter_exporter --device /dev/<your device>`
 
 ## Docker
-A Docker image is also provided: `docker run --rm -p 9817:9817 --device=/dev/<device> ymyzk/co2meter_exporter:latest --device /dev/<device>`
+A Docker image is also provided: `docker run --rm -p 9817:9817 --device=/dev/<device> ghcr.io/ymyzk/co2meter_exporter:latest --device /dev/<device>`
 
 ## Help
 Run `python3 -m co2meter_exporter -h`.
