@@ -1,5 +1,5 @@
 from logging import getLogger
-import sys
+import os
 from typing import Dict, Generator
 
 from CO2Meter import CO2Meter
@@ -35,7 +35,7 @@ class CustomCollector:
             data = self.meter.get_data()
         except OSError:
             _LOGGER.exception("Terminating the application")
-            sys.exit(1)
+            os._exit(1)
 
         for field, description in _METRICS.items():
             gauge = self._make_gauge_metric(data, field, description)
